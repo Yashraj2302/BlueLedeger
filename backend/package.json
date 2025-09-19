@@ -1,0 +1,31 @@
+{
+  "name": "blue-ledger-backend",
+  "version": "1.0.0",
+  "description": "Backend API for BlueLedger carbon credit registry",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "ipfs-http-client": "^60.0.1",
+    "axios": "^1.6.0",
+    "joi": "^17.11.0",
+    "winston": "^3.11.0",
+    "ethers": "^6.8.0",
+    "web3": "^4.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "eslint": "^8.53.0"
+  }
+}

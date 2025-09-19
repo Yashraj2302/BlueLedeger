@@ -1,0 +1,81 @@
+{
+  "type": "FeatureCollection",
+  "name": "Mangrove Restoration Project - Sundarbans",
+  "description": "Coastal mangrove restoration project in Sundarbans delta",
+  "metadata": {
+    "projectId": "proj_001",
+    "owner": "0x742d35Cc6634C0532925a3b8D0C0C4C4C4C4C4C4",
+    "methodology": "VCS VM0034 - Afforestation, Reforestation and Revegetation",
+    "vintage": 2025,
+    "area_hectares": 150.5,
+    "species": ["Rhizophora mucronata", "Avicennia marina", "Sonneratia apetala"],
+    "baseline_date": "2024-01-01",
+    "project_start": "2024-06-01",
+    "expected_completion": "2027-06-01"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "plot_id": "plot_001",
+        "species": "Rhizophora mucronata",
+        "planting_density": 2500,
+        "area_hectares": 50.2
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [88.1234, 21.5678],
+            [88.1245, 21.5678],
+            [88.1245, 21.5689],
+            [88.1234, 21.5689],
+            [88.1234, 21.5678]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "plot_id": "plot_002",
+        "species": "Avicennia marina",
+        "planting_density": 2000,
+        "area_hectares": 75.3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [88.1256, 21.5690],
+            [88.1267, 21.5690],
+            [88.1267, 21.5701],
+            [88.1256, 21.5701],
+            [88.1256, 21.5690]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "plot_id": "plot_003",
+        "species": "Sonneratia apetala",
+        "planting_density": 1800,
+        "area_hectares": 25.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [88.1278, 21.5702],
+            [88.1289, 21.5702],
+            [88.1289, 21.5713],
+            [88.1278, 21.5713],
+            [88.1278, 21.5702]
+          ]
+        ]
+      }
+    }
+  ]
+}

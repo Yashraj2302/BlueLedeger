@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "proj_001",
+  "vintage": 2025,
+  "generatedAt": "2025-01-15T10:30:00Z",
+  "mrvPipeline": {
+    "geeVersion": "0.1.400",
+    "ndviModel": "biomass_v2.1",
+    "datasets": {
+      "sentinel2": "COPERNICUS/S2_SR",
+      "landsat8": "LANDSAT/LC08/C02/T1_L2",
+      "fieldPlots": "custom_field_data_2025"
+    },
+    "processingParams": {
+      "cloudCoverThreshold": 20,
+      "temporalWindow": "3M",
+      "compositeMethod": "median",
+      "ndviThreshold": 0.3
+    }
+  },
+  "metrics": {
+    "totalAreaHectares": 150.5,
+    "baselineAGB": 12.3,
+    "currentAGB": 45.7,
+    "agbDelta": 33.4,
+    "carbonStock": 16.7,
+    "tCO2e": 61.2,
+    "uncertainty": 0.15,
+    "confidenceInterval": {
+      "lower": 52.0,
+      "upper": 70.4
+    }
+  },
+  "evidence": {
+    "ndviComposite": "QmNDVICompositeHash...",
+    "biomassRaster": "QmBiomassRasterHash...",
+    "fieldPlots": "QmFieldPlotsHash...",
+    "modelParams": "QmModelParamsHash...",
+    "qaMasks": "QmQAMasksHash..."
+  },
+  "verification": {
+    "verifierId": "verifier_001",
+    "verificationDate": "2025-01-15T09:00:00Z",
+    "verificationMethod": "independent_field_validation",
+    "verificationReport": "QmVerificationReportHash...",
+    "attestationSignature": "0x1234567890abcdef..."
+  },
+  "checksums": {
+    "manifest": "sha256:abc123...",
+    "evidenceBundle": "sha256:def456...",
+    "metrics": "sha256:ghi789..."
+  }
+}
