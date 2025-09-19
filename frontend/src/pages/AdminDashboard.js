@@ -8,83 +8,16 @@ import {
   MapPin, 
   Calendar,
   User,
-  LogOut,
-  RefreshCw
+  LogOut
 } from 'lucide-react';
+import { useProjectContext } from '../context/ProjectContext';
 
-// Mock data - in real app, this would come from API
-const mockProjects = [
-    {
-      id: 1,
-      name: 'Mangrove Restoration - Sundarbans',
-      description: 'Large-scale mangrove restoration project in the Sundarbans delta region',
-      submitter: '0x742d35Cc6634C0532925a3b8D0C0C4C4C4C4C4C4',
-      status: 'pending',
-      submittedAt: '2025-01-15T10:30:00Z',
-      area: 150.5,
-      methodology: 'VCS VM0034',
-      location: 'West Bengal, India',
-      geojsonData: {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            properties: { plot_id: 'plot_001', species: 'Rhizophora mucronata' },
-            geometry: {
-              type: 'Polygon',
-              coordinates: [[[88.1234, 21.5678], [88.1245, 21.5678], [88.1245, 21.5689], [88.1234, 21.5689], [88.1234, 21.5678]]]
-            }
-          }
-        ]
-      },
-      documents: ['project_proposal.pdf', 'environmental_impact.pdf']
-    },
-    {
-      id: 2,
-      name: 'Seagrass Restoration - Gulf of Mannar',
-      description: 'Seagrass restoration project in the Gulf of Mannar Marine National Park',
-      submitter: '0x8a9b2c3d4e5f6789012345678901234567890abcd',
-      status: 'pending',
-      submittedAt: '2025-01-14T14:20:00Z',
-      area: 75.3,
-      methodology: 'VCS VM0035',
-      location: 'Tamil Nadu, India',
-      geojsonData: {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            properties: { plot_id: 'plot_002', species: 'Halophila ovalis' },
-            geometry: {
-              type: 'Polygon',
-              coordinates: [[[79.1234, 9.5678], [79.1245, 9.5678], [79.1245, 9.5689], [79.1234, 9.5689], [79.1234, 9.5678]]]
-            }
-          }
-        ]
-      },
-      documents: ['seagrass_study.pdf', 'restoration_plan.pdf']
-    },
-    {
-      id: 3,
-      name: 'Salt Marsh Restoration - Chilika',
-      description: 'Salt marsh restoration project around Chilika Lake',
-      submitter: '0x1a2b3c4d5e6f7890123456789012345678901234ef',
-      status: 'approved',
-      submittedAt: '2025-01-10T09:15:00Z',
-      area: 45.2,
-      methodology: 'Custom',
-      location: 'Odisha, India',
-      geojsonData: null,
-      documents: ['chilika_restoration.pdf']
-    }
-  ];
 
 const AdminDashboard = ({ onLogout }) => {
-  const [projects, setProjects] = useState([]);
+  const { projects, updateProjectStatus } = useProjectContext();
   const [selectedProject, setSelectedProject] = useState(null);
   const [rejectionReason, setRejectionReason] = useState('');
   const [showRejectionModal, setShowRejectionModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState('pending'); // pending, approved, rejected
   const [adminUser, setAdminUser] = useState(null);
 
@@ -94,12 +27,6 @@ const AdminDashboard = ({ onLogout }) => {
     if (user) {
       setAdminUser(JSON.parse(user));
     }
-    
-    // Use mock data for now (will integrate with API later)
-    setTimeout(() => {
-      setProjects(mockProjects);
-      setIsLoading(false);
-    }, 1000);
   }, []);
 
   const filteredProjects = projects.filter(project => {
@@ -112,11 +39,10 @@ const AdminDashboard = ({ onLogout }) => {
       // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setProjects(prev => prev.map(project => 
-        project.id === projectId 
-          ? { ...project, status: 'approved' }
-          : project
-      ));
+      updateProjectStatus(projectId, 'approved', {
+        approvedBy: adminUser?.username || 'admin',
+        approvedAt: new Date().toISOString()
+      });
       
       // Close details view if this project was selected
       if (selectedProject?.id === projectId) {
@@ -137,11 +63,11 @@ const AdminDashboard = ({ onLogout }) => {
       // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setProjects(prev => prev.map(project => 
-        project.id === projectId 
-          ? { ...project, status: 'rejected', rejectionReason }
-          : project
-      ));
+      updateProjectStatus(projectId, 'rejected', {
+        rejectionReason,
+        rejectedBy: adminUser?.username || 'admin',
+        rejectedAt: new Date().toISOString()
+      });
       
       setRejectionReason('');
       setShowRejectionModal(false);
@@ -177,16 +103,6 @@ const AdminDashboard = ({ onLogout }) => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <RefreshCw className="h-8 w-8 animate-spin text-ocean-600 mx-auto mb-4" />
-          <p className="text-gray-600">Loading projects...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">

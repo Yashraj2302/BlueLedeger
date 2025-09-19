@@ -1,10 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { useWalletContext } from '../context/WalletContext';
+import { useProjectContext } from '../context/ProjectContext';
 import { AlertCircle, CheckCircle, Upload, FileText, X, CheckCircle2, Download } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Projects = () => {
   const { isConnected, isCorrectNetwork, account } = useWalletContext();
+  const { addProject } = useProjectContext();
   const fileInputRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -152,15 +154,13 @@ const Projects = () => {
       // Simulate API call for project submission
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Create project submission data
-      const submissionData = {
+      // Add project to shared state
+      const newProject = addProject({
         ...projectData,
-        submitter: account,
-        submittedAt: new Date().toISOString(),
-        status: 'pending'
-      };
+        submitter: account
+      });
       
-      console.log('Project submission data:', submissionData);
+      console.log('Project submitted:', newProject);
       
       toast.success('Project submitted successfully! It will be reviewed by administrators.');
       
