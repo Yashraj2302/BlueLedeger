@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Projects from './pages/Projects';
 import Dashboard from './pages/Dashboard';
 import Marketplace from './pages/Marketplace';
+import Admin from './pages/Admin';
 import './App.css';
 
 function App() {
@@ -17,10 +18,11 @@ function App() {
           <Navbar />
           <main>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/admin" element={<Admin />} />
             </Routes>
           </main>
           <Toaster position="top-right" />

@@ -16,6 +16,7 @@ const mrvRoutes = require('./routes/mrv');
 const oracleRoutes = require('./routes/oracle');
 const mintRoutes = require('./routes/mint');
 const retirementRoutes = require('./routes/retirement');
+const adminRoutes = require('./routes/admin');
 
 // Routes
 app.use('/api/v1/projects', projectRoutes);
@@ -23,6 +24,7 @@ app.use('/api/v1/mrv', mrvRoutes);
 app.use('/api/v1/oracle', oracleRoutes);
 app.use('/api/v1/mint', mintRoutes);
 app.use('/api/v1/retire', retirementRoutes);
+app.use('/api/v1/admin', adminRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
