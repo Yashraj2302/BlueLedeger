@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useWalletContext } from '../context/WalletContext';
 import { useProjectContext } from '../context/ProjectContext';
 import { 
@@ -13,15 +13,44 @@ import {
 import toast from 'react-hot-toast';
 
 const Marketplace = () => {
-  const { isConnected } = useWalletContext();
-  const { getApprovedProjects, buyCredits, retireCredits } = useProjectContext();
+  const { isConnected, account } = useWalletContext();
+  const { 
+    getApprovedProjects, 
+    buyCredits, 
+    retireCredits, 
+    getUserBalance, 
+    loadUserBalance 
+  } = useProjectContext();
   const [selectedProject, setSelectedProject] = useState(null);
   const [showBuyModal, setShowBuyModal] = useState(false);
   const [showRetireModal, setShowRetireModal] = useState(false);
   const [buyAmount, setBuyAmount] = useState('');
   const [retireAmount, setRetireAmount] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [userBalance, setUserBalance] = useState({
+    totalOwned: 0,
+    totalRetired: 0,
+    totalSpent: 0
+  });
 
   const approvedProjects = getApprovedProjects();
+
+  // Load user balance when wallet connects
+  useEffect(() => {
+    if (isConnected && account) {
+      loadUserBalance(account).then(balance => {
+        setUserBalance(balance);
+      });
+    }
+  }, [isConnected, account, loadUserBalance]);
+
+  // Update user balance from context
+  useEffect(() => {
+    if (account) {
+      const balance = getUserBalance(account);
+      setUserBalance(balance);
+    }
+  }, [account, getUserBalance]);
 
   const handleBuyCredits = (project) => {
     if (!isConnected) {
@@ -41,38 +70,59 @@ const Marketplace = () => {
     setShowRetireModal(true);
   };
 
-  const confirmBuy = () => {
+  const confirmBuy = async () => {
     const amount = parseInt(buyAmount);
     if (amount <= 0 || amount > selectedProject.credits.available) {
       toast.error('Invalid amount');
       return;
     }
 
-    // Simulate transaction
-    setTimeout(() => {
-      buyCredits(selectedProject.id, amount);
-      toast.success(`Successfully bought ${amount} credits!`);
+    setIsProcessing(true);
+    try {
+      const txResult = await buyCredits(selectedProject.id, amount, account);
+      
+      toast.success(
+        `Successfully bought ${amount} credits! Transaction: ${txResult.txHash.slice(0, 10)}...`
+      );
+      
       setShowBuyModal(false);
       setBuyAmount('');
       setSelectedProject(null);
-    }, 1000);
+    } catch (error) {
+      toast.error(error.message || 'Failed to buy credits');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const confirmRetire = () => {
+  const confirmRetire = async () => {
     const amount = parseInt(retireAmount);
     if (amount <= 0 || amount > selectedProject.credits.available) {
       toast.error('Invalid amount');
       return;
     }
 
-    // Simulate transaction
-    setTimeout(() => {
-      retireCredits(selectedProject.id, amount);
-      toast.success(`Successfully retired ${amount} credits!`);
+    if (amount > userBalance.totalOwned) {
+      toast.error('Insufficient credit balance');
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      const txResult = await retireCredits(selectedProject.id, amount, account);
+      
+      toast.success(
+        `Successfully retired ${amount} credits! Transaction: ${txResult.txHash.slice(0, 10)}...`
+      );
+      
       setShowRetireModal(false);
       setRetireAmount('');
       setSelectedProject(null);
-    }, 1000);
+    } catch (error) {
+      toast.error(error.message || 'Failed to retire credits');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const totalCredits = approvedProjects.reduce((sum, project) => sum + project.credits.total, 0);
@@ -102,6 +152,36 @@ const Marketplace = () => {
                   <p className="text-sm text-orange-600">
                     Please connect your MetaMask wallet to buy and retire blue carbon credits.
                   </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* User Balance */}
+        {isConnected && (
+          <div className="max-w-4xl mx-auto mb-8">
+            <div className="card border-green-200 bg-green-50">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-green-800">Your Credit Balance</h3>
+                  <p className="text-sm text-green-600">
+                    Wallet: {account?.slice(0, 6)}...{account?.slice(-4)}
+                  </p>
+                </div>
+                <div className="grid grid-cols-3 gap-6 text-center">
+                  <div>
+                    <p className="text-2xl font-bold text-green-600">{userBalance.totalOwned}</p>
+                    <p className="text-sm text-green-600">Credits Owned</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-blue-600">{userBalance.totalRetired}</p>
+                    <p className="text-sm text-green-600">Credits Retired</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-purple-600">${userBalance.totalSpent}</p>
+                    <p className="text-sm text-green-600">Total Spent</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -251,15 +331,24 @@ const Marketplace = () => {
               <div className="flex justify-end space-x-3">
                 <button
                   onClick={() => setShowBuyModal(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md"
+                  disabled={isProcessing}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={confirmBuy}
-                  className="px-4 py-2 text-sm font-medium text-white bg-ocean-600 hover:bg-ocean-700 rounded-md"
+                  disabled={isProcessing || !buyAmount || parseInt(buyAmount) <= 0}
+                  className="px-4 py-2 text-sm font-medium text-white bg-ocean-600 hover:bg-ocean-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                 >
-                  Buy Credits
+                  {isProcessing ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <span>Processing...</span>
+                    </>
+                  ) : (
+                    <span>Buy Credits</span>
+                  )}
                 </button>
               </div>
             </div>
@@ -313,15 +402,24 @@ const Marketplace = () => {
               <div className="flex justify-end space-x-3">
                 <button
                   onClick={() => setShowRetireModal(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md"
+                  disabled={isProcessing}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={confirmRetire}
-                  className="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md"
+                  disabled={isProcessing || !retireAmount || parseInt(retireAmount) <= 0 || parseInt(retireAmount) > userBalance.totalOwned}
+                  className="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                 >
-                  Retire Credits
+                  {isProcessing ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <span>Processing...</span>
+                    </>
+                  ) : (
+                    <span>Retire Credits</span>
+                  )}
                 </button>
               </div>
             </div>
