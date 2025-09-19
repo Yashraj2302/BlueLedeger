@@ -88,7 +88,7 @@ const AdminDashboard = ({ onLogout }) => {
   const [filter, setFilter] = useState('pending'); // pending, approved, rejected
 
   useEffect(() => {
-    // Simulate API call
+    // Use mock data for now (will integrate with API later)
     setTimeout(() => {
       setProjects(mockProjects);
       setIsLoading(false);
@@ -102,7 +102,7 @@ const AdminDashboard = ({ onLogout }) => {
 
   const handleApprove = async (projectId) => {
     try {
-      // Simulate API call
+      // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       setProjects(prev => prev.map(project => 
@@ -127,7 +127,7 @@ const AdminDashboard = ({ onLogout }) => {
     }
 
     try {
-      // Simulate API call
+      // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       setProjects(prev => prev.map(project => 

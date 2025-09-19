@@ -16,20 +16,19 @@ const AdminAuth = ({ onLogin }) => {
     setError('');
 
     try {
-      // Simulate API call for admin authentication
-      const response = await fetch('/api/v1/admin/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('adminToken', data.token);
-        localStorage.setItem('adminUser', data.user);
-        onLogin(data.user);
+      // Check credentials locally for now (will integrate with API later)
+      if (credentials.username === 'admin' && credentials.password === 'admin123') {
+        const mockUser = {
+          id: 1,
+          username: 'admin',
+          name: 'System Administrator',
+          role: 'admin'
+        };
+        const mockToken = `admin_token_${Date.now()}`;
+        
+        localStorage.setItem('adminToken', mockToken);
+        localStorage.setItem('adminUser', JSON.stringify(mockUser));
+        onLogin(mockUser);
       } else {
         setError('Invalid credentials. Please try again.');
       }
