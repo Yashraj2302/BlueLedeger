@@ -8,21 +8,12 @@ import {
   MapPin, 
   Calendar,
   User,
-  AlertTriangle,
   LogOut,
   RefreshCw
 } from 'lucide-react';
 
-const AdminDashboard = ({ onLogout }) => {
-  const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [rejectionReason, setRejectionReason] = useState('');
-  const [showRejectionModal, setShowRejectionModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState('pending'); // pending, approved, rejected
-
-  // Mock data - in real app, this would come from API
-  const mockProjects = [
+// Mock data - in real app, this would come from API
+const mockProjects = [
     {
       id: 1,
       name: 'Mangrove Restoration - Sundarbans',
@@ -87,6 +78,14 @@ const AdminDashboard = ({ onLogout }) => {
       documents: ['chilika_restoration.pdf']
     }
   ];
+
+const AdminDashboard = ({ onLogout }) => {
+  const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [rejectionReason, setRejectionReason] = useState('');
+  const [showRejectionModal, setShowRejectionModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [filter, setFilter] = useState('pending'); // pending, approved, rejected
 
   useEffect(() => {
     // Simulate API call

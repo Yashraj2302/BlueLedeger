@@ -4,7 +4,7 @@ import AdminDashboard from './AdminDashboard';
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [adminUser, setAdminUser] = useState(null);
+  const [, setAdminUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
