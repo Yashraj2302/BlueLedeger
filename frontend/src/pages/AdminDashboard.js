@@ -86,8 +86,15 @@ const AdminDashboard = ({ onLogout }) => {
   const [showRejectionModal, setShowRejectionModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState('pending'); // pending, approved, rejected
+  const [adminUser, setAdminUser] = useState(null);
 
   useEffect(() => {
+    // Load admin user info
+    const user = localStorage.getItem('adminUser');
+    if (user) {
+      setAdminUser(JSON.parse(user));
+    }
+    
     // Use mock data for now (will integrate with API later)
     setTimeout(() => {
       setProjects(mockProjects);
@@ -190,6 +197,14 @@ const AdminDashboard = ({ onLogout }) => {
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
               <p className="text-gray-600">BlueLedger System Administration</p>
+              {adminUser && (
+                <p className="text-sm text-gray-500 mt-1">
+                  Welcome, <span className="font-medium text-ocean-600">{adminUser.name}</span> 
+                  <span className="ml-2 px-2 py-1 bg-ocean-100 text-ocean-800 text-xs rounded-full">
+                    {adminUser.role}
+                  </span>
+                </p>
+              )}
             </div>
             <button
               onClick={onLogout}

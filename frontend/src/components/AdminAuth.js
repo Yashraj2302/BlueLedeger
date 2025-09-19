@@ -10,21 +10,29 @@ const AdminAuth = ({ onLogin }) => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Demo credentials
+  const demoCredentials = {
+    admin: { password: 'admin123', name: 'System Administrator', role: 'admin' },
+    manager: { password: 'manager123', name: 'Project Manager', role: 'manager' },
+    supervisor: { password: 'supervisor123', name: 'Field Supervisor', role: 'supervisor' }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
-      // Check credentials locally for now (will integrate with API later)
-      if (credentials.username === 'admin' && credentials.password === 'admin123') {
+      // Check credentials against demo accounts
+      const userCreds = demoCredentials[credentials.username];
+      if (userCreds && userCreds.password === credentials.password) {
         const mockUser = {
-          id: 1,
-          username: 'admin',
-          name: 'System Administrator',
-          role: 'admin'
+          id: Object.keys(demoCredentials).indexOf(credentials.username) + 1,
+          username: credentials.username,
+          name: userCreds.name,
+          role: userCreds.role
         };
-        const mockToken = `admin_token_${Date.now()}`;
+        const mockToken = `admin_token_${credentials.username}_${Date.now()}`;
         
         localStorage.setItem('adminToken', mockToken);
         localStorage.setItem('adminUser', JSON.stringify(mockUser));
@@ -43,6 +51,13 @@ const AdminAuth = ({ onLogin }) => {
     setCredentials({
       ...credentials,
       [e.target.name]: e.target.value
+    });
+  };
+
+  const handleDemoClick = (username, password) => {
+    setCredentials({
+      username,
+      password
     });
   };
 
@@ -143,9 +158,40 @@ const AdminAuth = ({ onLogin }) => {
                 <span className="px-2 bg-white text-gray-500">Demo Credentials</span>
               </div>
             </div>
-            <div className="mt-4 text-center text-sm text-gray-600">
-              <p>Username: <span className="font-mono">admin</span></p>
-              <p>Password: <span className="font-mono">admin123</span></p>
+            <div className="mt-4 bg-blue-50 border border-blue-200 rounded-md p-4">
+              <div className="text-center">
+                <h4 className="text-sm font-medium text-blue-800 mb-2">Try These Demo Accounts</h4>
+                <div className="space-y-2 text-sm text-blue-700">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Admin:</span>
+                    <button
+                      onClick={() => handleDemoClick('admin', 'admin123')}
+                      className="font-mono bg-blue-100 hover:bg-blue-200 px-2 py-1 rounded transition-colors cursor-pointer"
+                    >
+                      admin / admin123
+                    </button>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Manager:</span>
+                    <button
+                      onClick={() => handleDemoClick('manager', 'manager123')}
+                      className="font-mono bg-blue-100 hover:bg-blue-200 px-2 py-1 rounded transition-colors cursor-pointer"
+                    >
+                      manager / manager123
+                    </button>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Supervisor:</span>
+                    <button
+                      onClick={() => handleDemoClick('supervisor', 'supervisor123')}
+                      className="font-mono bg-blue-100 hover:bg-blue-200 px-2 py-1 rounded transition-colors cursor-pointer"
+                    >
+                      supervisor / supervisor123
+                    </button>
+                  </div>
+                </div>
+                <p className="text-xs text-blue-600 mt-2">Click on any credential to auto-fill</p>
+              </div>
             </div>
           </div>
         </div>
