@@ -10,13 +10,13 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Blue Carbon
-              <span className="text-ocean-600"> Credits</span>
+              BlueLedger
+              <span className="text-ocean-600"> System</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Transform coastal restoration into verifiable climate currency. 
-              BlueLedger uses blockchain technology to mint, trade, and retire 
-              blue carbon credits with transparent MRV.
+              Blockchain-based blue carbon credit registry and MRV system. 
+              Turn coastal restoration into verifiable climate currency using 
+              satellite imagery, blockchain technology, and transparent verification.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/projects" className="btn-primary text-lg px-8 py-3">
@@ -36,11 +36,12 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              How BlueLedger Works
+              How BlueLedger System Works
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Our blockchain-based system ensures transparency, prevents double-counting, 
-              and provides verifiable carbon credits from coastal ecosystems.
+              Our blockchain-based registry ensures transparency, prevents double-counting, 
+              and provides verifiable blue carbon credits from coastal ecosystems using 
+              satellite imagery and field data.
             </p>
           </div>
 
@@ -51,7 +52,7 @@ const Home = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Project Onboarding</h3>
               <p className="text-gray-600">
-                Upload GeoJSON files and metadata to register coastal restoration projects.
+                Users onboard projects using GeoJSON files containing coastal ecosystem boundaries and metadata.
               </p>
             </div>
 
@@ -61,7 +62,7 @@ const Home = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">MRV Pipeline</h3>
               <p className="text-gray-600">
-                Satellite imagery and field data provide verifiable carbon measurements.
+                Uses satellite imagery and field data for MRV, leveraging Google Earth Engine and NDVI Biomass Model.
               </p>
             </div>
 
@@ -71,7 +72,7 @@ const Home = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Token Minting</h3>
               <p className="text-gray-600">
-                ERC-1155 tokens represent fungible carbon credits with immutable evidence.
+                ERC-1155 tokens minted with evidence stored on IPFS, brought on-chain via Chainlink oracle.
               </p>
             </div>
 
@@ -81,7 +82,7 @@ const Home = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Community Impact</h3>
               <p className="text-gray-600">
-                Revenue sharing supports coastal communities and ecosystem restoration.
+                ERC-721 retirement certificates with revenue sharing for coastal communities via MetaMask and USDC.
               </p>
             </div>
           </div>
@@ -93,8 +94,11 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              2025 Pilot Targets
+              SIH 2025 Key Performance Indicators
             </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Our pilot targets for the Smart India Hackathon 2025
+            </p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-8">
@@ -118,6 +122,53 @@ const Home = () => {
         </div>
       </section>
 
+      {/* DAO Governance Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Long-term Vision: National Registry
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Using APIs and DAO governance to create a national blue carbon registry, 
+              enabling scalable markets and transparent governance for India's climate goals.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="card text-center">
+              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <TrendingUp className="h-8 w-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Scalable Markets</h3>
+              <p className="text-gray-600">
+                Nationwide adoption of blue carbon credit trading across India's coastal regions.
+              </p>
+            </div>
+
+            <div className="card text-center">
+              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="h-8 w-8 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Community Empowerment</h3>
+              <p className="text-gray-600">
+                Direct revenue sharing with coastal communities through transparent governance.
+              </p>
+            </div>
+
+            <div className="card text-center">
+              <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="h-8 w-8 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Climate Impact</h3>
+              <p className="text-gray-600">
+                Significant contribution to India's carbon neutrality and climate action goals.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -126,7 +177,7 @@ const Home = () => {
           </h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Join the BlueLedger ecosystem and help restore coastal ecosystems 
-            while generating verifiable carbon credits.
+            while generating verifiable carbon credits for SIH 2025.
           </p>
           <Link to="/projects" className="btn-primary text-lg px-8 py-3">
             Get Started Today
