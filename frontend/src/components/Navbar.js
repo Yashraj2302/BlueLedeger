@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Waves, Wallet } from 'lucide-react';
+import { Menu, X, Waves } from 'lucide-react';
+import WalletConnect from './WalletConnect';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,10 +43,7 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <button className="flex items-center space-x-2 text-gray-700 hover:text-ocean-600">
-              <Wallet className="h-5 w-5" />
-              <span>Connect Wallet</span>
-            </button>
+            <WalletConnect />
           </div>
 
           {/* Mobile menu button */}
@@ -77,10 +75,9 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
-              <button className="flex items-center space-x-2 w-full px-3 py-2 text-gray-700 hover:text-ocean-600">
-                <Wallet className="h-5 w-5" />
-                <span>Connect Wallet</span>
-              </button>
+              <div className="px-3 py-2">
+                <WalletConnect />
+              </div>
             </div>
           </div>
         )}

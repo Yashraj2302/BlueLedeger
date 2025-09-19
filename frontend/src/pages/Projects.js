@@ -1,6 +1,10 @@
 import React from 'react';
+import { useWalletContext } from '../context/WalletContext';
+import { AlertCircle, CheckCircle } from 'lucide-react';
 
 const Projects = () => {
+  const { isConnected, isCorrectNetwork, account } = useWalletContext();
+
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,6 +16,32 @@ const Projects = () => {
             Upload your GeoJSON file to register coastal restoration projects and start generating blue carbon credits.
           </p>
         </div>
+
+        {/* Wallet Status */}
+        {isConnected && (
+          <div className="max-w-2xl mx-auto mb-8">
+            <div className={`card ${isCorrectNetwork() ? 'border-green-200 bg-green-50' : 'border-orange-200 bg-orange-50'}`}>
+              <div className="flex items-center space-x-3">
+                {isCorrectNetwork() ? (
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                ) : (
+                  <AlertCircle className="h-6 w-6 text-orange-600" />
+                )}
+                <div>
+                  <h3 className={`font-semibold ${isCorrectNetwork() ? 'text-green-800' : 'text-orange-800'}`}>
+                    {isCorrectNetwork() ? 'Wallet Connected' : 'Wrong Network'}
+                  </h3>
+                  <p className={`text-sm ${isCorrectNetwork() ? 'text-green-600' : 'text-orange-600'}`}>
+                    {isCorrectNetwork() 
+                      ? `Connected to Polygon with account: ${account?.slice(0, 6)}...${account?.slice(-4)}`
+                      : 'Please switch to Polygon network to continue'
+                    }
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="max-w-2xl mx-auto">
           <div className="card">

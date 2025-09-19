@@ -1,7 +1,10 @@
 import React from 'react';
-import { ShoppingCart, Leaf, Shield, TrendingUp } from 'lucide-react';
+import { ShoppingCart, Leaf, Shield, TrendingUp, AlertCircle } from 'lucide-react';
+import { useWalletContext } from '../context/WalletContext';
 
 const Marketplace = () => {
+  const { isConnected, isCorrectNetwork } = useWalletContext();
+
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,6 +16,23 @@ const Marketplace = () => {
             Buy and sell verified blue carbon credits from coastal restoration projects.
           </p>
         </div>
+
+        {/* Wallet Connection Notice */}
+        {!isConnected && (
+          <div className="max-w-4xl mx-auto mb-8">
+            <div className="card border-orange-200 bg-orange-50">
+              <div className="flex items-center space-x-3">
+                <AlertCircle className="h-6 w-6 text-orange-600" />
+                <div>
+                  <h3 className="font-semibold text-orange-800">Connect Your Wallet</h3>
+                  <p className="text-sm text-orange-600">
+                    Please connect your MetaMask wallet to buy and sell blue carbon credits.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Filter Section */}
         <div className="card mb-8">
