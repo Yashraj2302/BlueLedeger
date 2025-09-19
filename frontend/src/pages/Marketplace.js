@@ -3,7 +3,7 @@ import { ShoppingCart, Leaf, Shield, TrendingUp, AlertCircle } from 'lucide-reac
 import { useWalletContext } from '../context/WalletContext';
 
 const Marketplace = () => {
-  const { isConnected, isCorrectNetwork } = useWalletContext();
+  const { isConnected } = useWalletContext();
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">

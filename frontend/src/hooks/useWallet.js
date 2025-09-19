@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const useWallet = () => {
   const [account, setAccount] = useState(null);
@@ -13,7 +13,7 @@ const useWallet = () => {
   };
 
   // Get current account
-  const getCurrentAccount = async () => {
+  const getCurrentAccount = useCallback(async () => {
     if (!isMetaMaskInstalled()) return null;
     
     try {
@@ -23,10 +23,10 @@ const useWallet = () => {
       console.error('Error getting current account:', error);
       return null;
     }
-  };
+  }, []);
 
   // Get current chain ID
-  const getCurrentChainId = async () => {
+  const getCurrentChainId = useCallback(async () => {
     if (!isMetaMaskInstalled()) return null;
     
     try {
@@ -36,7 +36,7 @@ const useWallet = () => {
       console.error('Error getting chain ID:', error);
       return null;
     }
-  };
+  }, []);
 
   // Connect wallet
   const connectWallet = async () => {
@@ -176,7 +176,7 @@ const useWallet = () => {
         window.ethereum.removeAllListeners('chainChanged');
       }
     };
-  }, []);
+  }, [getCurrentAccount, getCurrentChainId]);
 
   return {
     account,

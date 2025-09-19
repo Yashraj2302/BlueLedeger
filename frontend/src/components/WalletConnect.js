@@ -7,8 +7,6 @@ const WalletConnect = () => {
     account,
     isConnected,
     isConnecting,
-    error,
-    chainId,
     connectWallet,
     disconnectWallet,
     switchToPolygon,
